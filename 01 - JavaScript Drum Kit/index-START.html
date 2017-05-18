@@ -60,13 +60,22 @@
 <script>
   window.addEventListener('keydown', function(e){
     const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`)
-    if(!audio) return;
-
-    audio.play()
-
-    console.log(audio);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`)
+    if(!audio) return // stops the function from runnint all together
+    audio.currentTime = 0 // rewind to the start of the audio
+    audio.play();
+    key.classList.add('playing')// classList property allow the use of the remove method to
+    //take out the playing class to  remove the highlight when the sound is done playing.
   })
 
+
+  function removeTransition(e){
+    if (e.propertyName !== 'transform') return; // skip if its not a transform
+    this.classList.remove('playing')
+  }
+
+const keys = document.querySelectorAll('.key')
+keys.forEach(key => key.addEventListener('transitionend', removeTransition));
 
 </script>
 
